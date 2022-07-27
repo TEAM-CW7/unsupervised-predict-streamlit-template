@@ -44,7 +44,7 @@ from carousel import carousel
 import hydralit_components as hc
 import hydralit as hy
 import streamlit_modal as modal
-from st_on_hover_tabs import on_hover_tabs
+
 
 # Data Loading
 title_list = load_movie_titles('resources/data/movies.csv')
