@@ -12,9 +12,9 @@ import plotly.graph_objects as go
 movies_df = pd.read_csv('resources/data/movies.csv',sep = ',')
 imdb_df = pd.read_csv('resources/data/imdb_data.csv')
 ratings_df = pd.read_csv('resources/data/ratings.csv')
-train_df = pd.read_csv('resources/data/train.csv')
+# train_df = pd.read_csv('resources/data/train.csv')
 
-eda_df = train_df[train_df['userId']!=72315]
+# eda_df = train_df[train_df['userId']!=72315]
 ratings_df.drop(['timestamp'], axis=1,inplace=True)
 
 def feature_frequency(df, column):
@@ -62,7 +62,7 @@ def feature_count(df, column):
     plt.xlabel('Count')
     st.pyplot(fig)
 
-def mean_calc(feat_df, ratings = eda_df, movies = movies_df, metadata = imdb_df, column = 'genres'):
+def mean_calc(feat_df, ratings = ratings_df, movies = movies_df, metadata = imdb_df, column = 'genres'):
     
     
     
@@ -151,5 +151,5 @@ def plot_eda():
     feature_count(genres.sort_values(by = 'count', ascending=False), 'genres')   
     genres['mean_rating'] = mean_calc(genres) 
     genre_popularity(genres.sort_values('mean_rating', ascending=False))
-    ratings_distplot(eda_df)
-    mean_ratings_scatter(eda_df,'#F33DD8')
+    ratings_distplot(ratings_df)
+    mean_ratings_scatter(ratings_df,'#F33DD8')

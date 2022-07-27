@@ -1,0 +1,35 @@
+<script>
+import 'gitart-vue-dialog/dist/style.css'
+import { GCarousel } from 'gitart-scroll-carousel';
+
+export default {
+  components: {
+    GCarousel,
+  },
+  data: () => ({
+    items: [0,1,2,3,4]
+  })
+};
+</script>
+
+<template>
+  <GSCarousel
+    :items="items"
+    item-gap="16"
+    :items-to-show="2"
+  >
+    <template #item="{ data }">
+      <div class="slide">
+        {{ data }}
+      </div>
+    </template>
+  </GSCarousel>
+</template>
+
+<style scoped>
+.slide {
+  box-shadow: 0 6px 15px -3px rgb(0 0 0/0.3);
+  padding: 25px;
+  border-radius: 5px;
+}
+</style>
