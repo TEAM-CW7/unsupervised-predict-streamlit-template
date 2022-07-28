@@ -32,6 +32,7 @@ import pandas as pd
 import numpy as np
 import scipy as sp 
 import pickle
+import joblib
 import operator
 import copy
 from surprise import Reader, Dataset
@@ -182,40 +183,5 @@ def collab_model(movie_list,top_n=10):
        
         recommended_movies.append(movies_df[movies_df['movieId']==i]['title'].item())
       
-    print('++++++++++++++++++' ,recommended_movies)
     return recommended_movies
 
-
-
-
-
-
-
-    # # Getting the cosine similarity matrix
-    # cosine_sim = cosine_similarity(np.array( df_init_users), np.array(df_init_users))
-    # # cosine_sim2 = cosine_similarity(np.array( df_init_users), np.array(df_init_users))
-    # # cosine_sim3 = cosine_similarity(np.array( df_init_users), np.array(df_init_users)) 
-
-    # idx_1 = indices[indices == movie_list[0]].index[0]
-    # idx_2 = indices[indices == movie_list[1]].index[0]
-    # idx_3 = indices[indices == movie_list[2]].index[0]
-  
-    # # Creating a Series with the similarity scores in descending order
-    # rank_1 = cosine_sim(idx_1)
-    # rank_2 = cosine_sim[idx_2]
-    # rank_3 = cosine_sim[idx_3]
-  
-    # # Calculating the scores
-    # score_series_1 = pd.Series(rank_1).sort_values(ascending = False)
-    # score_series_2 = pd.Series(rank_2).sort_values(ascending = False)
-    # score_series_3 = pd.Series(rank_3).sort_values(ascending = False)
-    #  # Appending the names of movies
-    # listings = score_series_1.append(score_series_2).append(score_series_3).sort_values(ascending = False)
-    # recommended_movies = []
-    # # Choose top 50
-    # top_50_indexes = list(listings.iloc[1:50].index)
-    # # Removing chosen movies
-    # top_indexes = np.setdiff1d(top_50_indexes,[idx_1,idx_2,idx_3])
-    # for i in top_indexes[:top_n]:
-    #     recommended_movies.append(list(movies_df['title'])[i])
-    # return recommended_movies
