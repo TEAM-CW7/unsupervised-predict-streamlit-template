@@ -7,6 +7,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
+from wordcloud import WordCloud
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 
 # Importing data
 movies_df = pd.read_csv('resources/data/movies.csv',sep = ',')
@@ -146,10 +148,95 @@ def mean_ratings_scatter(df, color='#F33DD8', column='userId'):
     plt.ylabel('Number of Ratings')
     st.pyplot(fig) 
 
+# Function that counts the number of times each of the genre keywords appear
+def count_word(dataset, ref_col, census):
+   
+    keyword_count = dict()
+    for s in census: 
+        keyword_count[s] = 0
+    for census_keywords in dataset[ref_col].str.split('|'):        
+        if type(census_keywords) == float and pd.isnull(census_keywords): 
+            continue        
+        for s in [s for s in census_keywords if s in census]: 
+            if pd.notnull(s): 
+                keyword_count[s] += 1
+    
+    # convert the dictionary in a list to sort the keywords by frequency
+    keyword_occurences = []
+    for k,v in keyword_count.items():
+        keyword_occurences.append([k,v])
+    keyword_occurences.sort(key = lambda x:x[1], reverse = True)
+
+    return keyword_occurences, keyword_count
+
+
+def wordClouds():
+    sys = st.radio("Select a feature",
+                        ('Titles',
+                            'Cast',
+                            'Genre'))
+    if sys == 'Titles':
+        st.info('This WordCloud displays the most popular movie titles')
+        # Creating a wordcloud of the movie titles to view the most popular movie titles within the word cloud
+        movies_df['title'] = movies_df['title'].fillna("").astype('str')
+        title_corpus = ' '.join(movies_df['title'])
+        title_wordcloud = WordCloud(stopwords=STOPWORDS, background_color='white', height=2000, width=4000).generate(title_corpus)
+
+        # Plotting the wordcloud
+        fig = plt.figure(figsize=(16,8))
+        plt.imshow(title_wordcloud)
+        plt.axis('off')
+        st.pyplot(fig)
+
+    if sys == 'Cast':
+        st.info('This WordCloud displays the most popular movie title_cast ')
+    # Creating a wordcloud of the movie titles to view the most popular movie title_cast within the word cloud
+        imdb_df['title_cast'] = imdb_df['title_cast'].fillna("").astype('str')
+        title_corpus = ' '.join(imdb_df['title_cast'])
+        title_wordcloud = WordCloud(stopwords=STOPWORDS, background_color='white', height=2000, width=4000).generate(title_corpus)
+
+        # Plotting the wordcloud
+        fig = plt.figure(figsize=(16,8))
+        plt.imshow(title_wordcloud)
+        plt.axis('off')
+        st.pyplot(fig)
+
+    if sys == 'Genre':
+        genre_labels = set()
+        for s in movies_df['genres'].str.split('|').values:
+            genre_labels = genre_labels.union(set(s))
+        
+        keyword_occurences, dum = count_word(movies_df, 'genres', genre_labels)
+     
+
+    # Define the dictionary used to produce the genre wordcloud
+        genres = dict()
+        trunc_occurences = keyword_occurences[0:18]
+        for s in trunc_occurences:
+            genres[s[0]] = s[1]
+
+        # Create the wordcloud
+        genre_wordcloud = WordCloud(width=4000,height=2000, background_color='white')
+        genre_wordcloud.generate_from_frequencies(genres)
+
+        # Plot the wordcloud
+        f, ax = plt.subplots(figsize=(16, 8))
+        plt.imshow(genre_wordcloud, interpolation="bilinear")
+        plt.axis('off')
+        plt.show()
+        st.pyplot(f)
+
+
 def plot_eda():
-    genres = feature_frequency(movies_df, 'genres')
-    feature_count(genres.sort_values(by = 'count', ascending=False), 'genres')   
-    genres['mean_rating'] = mean_calc(genres) 
-    genre_popularity(genres.sort_values('mean_rating', ascending=False))
-    ratings_distplot(ratings_df)
-    mean_ratings_scatter(ratings_df,'#F33DD8')
+    options= ["Genre Counts", "Movie Ratings", "Popular Words per Feature"]
+    visuals_selection = st.sidebar.selectbox("Select Visual", options)
+    if visuals_selection == "Genre Counts":
+        genres = feature_frequency(movies_df, 'genres')
+        feature_count(genres.sort_values(by = 'count', ascending=False), 'genres')   
+    if visuals_selection == "Movie Ratings": 
+        genres = feature_frequency(movies_df, 'genres')   
+        genres['mean_rating'] = mean_calc(genres) 
+        genre_popularity(genres.sort_values('mean_rating', ascending=False))
+    if visuals_selection == "Popular Words per Feature":
+        wordClouds()
+    

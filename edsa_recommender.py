@@ -27,6 +27,7 @@
 """
 # Streamlit dependencies
 from calendar import c
+from tkinter import W
 from turtle import width
 import streamlit as st
 
@@ -52,13 +53,16 @@ title_list = load_movie_titles('resources/data/movies.csv')
 
 
 # App declaration
-app = hy.HydraApp(title='Pegasus AI  Movie Recommender',favicon="🐙",hide_streamlit_markers=True,use_navbar=True, navbar_sticky=True)
+app = hy.HydraApp(title='PegasusMovie Recommender',favicon="📺",hide_streamlit_markers=True,use_navbar=True, navbar_sticky=True)
 
 
 @app.addapp()
 def About ():
 
-    st.write('Pegasus AI  Movie Recommender')
+    st.header('Pegasus Recommender')
+    st.info('''Bored? Not sure what to watch? No worries Pegasus Recommender has got you!
+
+    Pegasus Recommender is a recommender engine designed to give you accurate movie recommendations based on your movie interests.''')
     st.video('https://www.youtube.com/watch?v=Qjq9rm-DvkI')
 
 @app.addapp()
@@ -117,69 +121,8 @@ def Recommender():
             except:
                 st.error("Oops! Looks like this algorithm does't work.\
                                     We'll need to fix it!")
-    # modal1()
-    modal2()
 
-def modal1():    
-    open_modal1 = st.button("What is a content based recommendation?")
-    if open_modal1:
-        modal.open()
-
-    if modal.is_open():
-        with modal.container():
-            st.markdown("**<font color=‘blue’>Content Based Recommender</font>**", unsafe_allow_html=True)
-
-
-            html_string = '''
-        <h1>HTML string in RED</h1>
-
-        <script language="javascript">
-          document.querySelector("h1").style.color = "red";
-        </script>
-        '''
-            components.html(html_string)
-
-            st.write("")
-            value = st.checkbox("Check me")
-            st.write(f"Checkbox checked: {value}")
-
-
-def modal2():
-                
-    open_modal2 = st.button("What is a collaborative  based recommendation?")
-    if open_modal2:
-        modal.open()
-
-    if modal.is_open():
-        with modal.container():
-            st.markdown(
-    """
-    <style>
-    .reportview-container {
-        background: url("url_goes_here")
-    }
-   .sidebar .sidebar-content {
-        background: url("resources/imgs/pegasus.jpg")
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-            # new_title = '<p style="font-family:sans-serif; color:Green; font-size: 42px;">Collaborative Based Recommendation</p>'
-            # st.markdown(new_title, unsafe_allow_html=True)
-            # st.markdown("<font color=‘blue’>Collaborative Based Recommendation</font>", unsafe_allow_html=True ,  font-size= 42px;)
-            html_string = '''
-        <h1>Collaborative Based Recommendation</h1>
-
-        <script language="javascript">
-          document.querySelector("h1").style.color = "red";
-        </script>
-        '''
-            
-            components.html(html_string)
-            st.markdown("<font color= 'red'>Find out more more [here](https://www.youtube.com/watch?v=h9gpufJFF-0)</font>",unsafe_allow_html=True)
-        
-                                             
+                                  
 
 
 @app.addapp()
@@ -189,25 +132,45 @@ def Dashboard():
 
 @app.addapp()    
 def Help():
-    st.write("Want Help?")
     
-    col1, col2, col3, col4, col5 = st.beta_columns(5)
+    st.header("Lost?")
+    st.info("Watch the following videos to learn more about content based and collaborative recommender systems.")
+    
+    col1, col2= st.columns(2)
     with col1:
     
         st.header("Content Based")
-        st.video("https://www.youtube.com/watch?v=MHL0ImqqeJ8", width=200)
-        st.write("Read [more] (https://developers.google.com/machine-learning/recommendation/content-based/basics)")
+        st.video("https://www.youtube.com/watch?v=MHL0ImqqeJ8")
+     
 
     with col2:
         st.header("Collaborative")
-        st.video("https://www.youtube.com/watch?v=h9gpufJFF-0", width=200)
+        st.video("https://www.youtube.com/watch?v=h9gpufJFF-0")
 
-
+    st.write("Read [more] (https://developers.google.com/machine-learning/recommendation/content-based/basics)")
 
 
 
 @app.addapp()
 def ContactUs():
+    st.header(' Who are we:question:')
+    st.image('resources/imgs/pegasus.jpg' , width=400)
+    st.info('''Headquartered in Johannesburg, PEGASUS AI  is  a digital transformation 
+    consultancy company that delivers cutting edge solutions for global organisations 
+    and technology startups. Since 2015 we have been helping companies and established 
+    brands reimagine their business through digitalisation.
+    We enable businesses to offer a great customer experience by incorporating
+     AI into their products and business operations.
+
+    Meet the team:
+    - Andiswa Sumo (Lead Data Scientist)
+    - Matlhogonolo Masetlwa (Data Scientist)
+    - Morglin Olivier (Data Scientist)
+    - Thato Lethetsa (Data Scientist)
+    - Moromo Mathobela (Data Scientist)
+
+''')
+
     st.header(":mailbox: Get In Touch With Us !")
 
 
