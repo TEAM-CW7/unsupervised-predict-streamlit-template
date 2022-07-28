@@ -132,8 +132,7 @@ def Dashboard():
 
 @app.addapp()    
 def Help():
-    
-    st.header("Lost?")
+    st.header("Lost?We got you!")
     st.info("Watch the following videos to learn more about content based and collaborative recommender systems.")
     
     col1, col2= st.columns(2)
