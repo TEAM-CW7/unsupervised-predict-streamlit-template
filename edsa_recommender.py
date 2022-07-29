@@ -56,21 +56,21 @@ title_list = load_movie_titles('resources/data/movies.csv')
 app = hy.HydraApp(title='PegasusMovie Recommender',favicon="📺",hide_streamlit_markers=True,use_navbar=True, navbar_sticky=True)
 
 
-@app.addapp()
-def About ():
+# @app.addapp()
+# def About ():
 
-    st.header('Pegasus Recommender')
-    st.info('''Bored? Not sure what to watch? No worries Pegasus Recommender has got you!
+#     st.header('Pegasus Recommender')
+#     st.info('''Bored? Not sure what to watch? No worries Pegasus Recommender has got you!
 
-    Pegasus Recommender is a recommender engine designed to give you accurate movie recommendations based on your movie interests.''')
-    st.video('https://www.youtube.com/watch?v=Qjq9rm-DvkI')
+#     Pegasus Recommender is a recommender engine designed to give you accurate movie recommendations based on your movie interests.''')
+#     st.video('https://www.youtube.com/watch?v=Qjq9rm-DvkI')
 
-@app.addapp()
-def Recommender():
+    
+def main():
 
         # DO NOT REMOVE the 'Recommender System' option below, however,
         # you are welcome to add more options to enrich your app.
-    page_options = ["Recommender System","Help"]
+    page_options = ["Home","Recommender System","Dashboard", "Help", "Contact Us"]
     # -------------------------------------------------------------------
     # ----------- !! THIS CODE MUST NOT BE ALTERED !! -------------------
     # -------------------------------------------------------------------
@@ -120,67 +120,71 @@ def Recommender():
                     st.error("Oops! Looks like this algorithm does't work.\
                               We'll need to fix it!")
 
-@app.addapp()
-def Dashboard():
-    plot_eda()
+    if page_selection == "Home":
 
+        st.header('Pegasus Recommender')
+        st.info('''Bored? Not sure what to watch? No worries Pegasus Recommender has got you!
 
-@app.addapp()    
-def Help():
-    st.header("Lost?We got you!")
-    st.info("Watch the following videos to learn more about content based and collaborative recommender systems.")
+        Pegasus Recommender is a recommender engine designed to give you accurate movie recommendations based on your movie interests.''')
+        st.video('https://www.youtube.com/watch?v=Qjq9rm-DvkI')
+
+    if page_selection == "Dashboard":
+        plot_eda()
     
-    col1, col2= st.columns(2)
-    with col1:
+    if page_selection == "Help":
+        st.header("Lost?We got you!")
+        st.info("Watch the following videos to learn more about content based and collaborative recommender systems.")
     
-        st.header("Content Based")
-        st.video("https://www.youtube.com/watch?v=MHL0ImqqeJ8")
+        col1, col2= st.columns(2)
+        with col1:
+    
+            st.header("Content Based")
+            st.video("https://www.youtube.com/watch?v=MHL0ImqqeJ8")
      
 
-    with col2:
-        st.header("Collaborative")
-        st.video("https://www.youtube.com/watch?v=h9gpufJFF-0")
+        with col2:
+            st.header("Collaborative")
+            st.video("https://www.youtube.com/watch?v=h9gpufJFF-0")
 
-    st.write("Read [more] (https://developers.google.com/machine-learning/recommendation/content-based/basics)")
+        st.write("Read [more] (https://developers.google.com/machine-learning/recommendation/content-based/basics)")
 
-
-
-@app.addapp()
-def ContactUs():
-    st.header(' Who are we:question:')
-    st.image('resources/imgs/pegasus.jpg' , width=400)
-    st.info('''Headquartered in Johannesburg, PEGASUS AI  is  a digital transformation 
-    consultancy company that delivers cutting edge solutions for global organisations 
-    and technology startups. Since 2015 we have been helping companies and established 
-    brands reimagine their business through digitalisation.
-    We enable businesses to offer a great customer experience by incorporating
-     AI into their products and business operations.
-
-    Meet the team:
-    - Andiswa Sumo (Lead Data Scientist)
-    - Matlhogonolo Masetlwa (Data Scientist)
-    - Morglin Olivier (Data Scientist)
-    - Thato Lethetsa (Data Scientist)
-    - Moromo Mathobela (Data Scientist)
-
-''')
-
-    st.header(":mailbox: Get In Touch With Us !")
+    if page_selection == "Contact Us":
 
 
-    contact_form = """
-<form action="https://formsubmit.co/morglin.olivierm@gmail.com" method="POST">
-     <input type="hidden" name="_captcha" value="false">
-     <input type="text" name="name" placeholder="Your name" required>
-     <input type="email" name="email" placeholder="Your email" required>
-     <textarea name="message" placeholder="Your message here"></textarea>
-     <button type="submit">Send</button>
-</form>
-"""
+        st.header(' Who are we:question:')
+        st.image('resources/imgs/pegasus.jpg' , width=400)
+        st.info('''Headquartered in Johannesburg, PEGASUS AI  is  a digital transformation 
+        consultancy company that delivers cutting edge solutions for global organisations 
+        and technology startups. Since 2015 we have been helping companies and established 
+        brands reimagine their business through digitalisation.
+        We enable businesses to offer a great customer experience by incorporating
+        AI into their products and business operations.
 
-    st.markdown(contact_form, unsafe_allow_html=True)
+        Meet the team:
+        - Andiswa Sumo (Lead Data Scientist)
+        - Matlhogonolo Masetlwa (Data Scientist)
+        - Morglin Olivier (Data Scientist)
+        - Thato Lethetsa (Data Scientist)
+        - Moromo Mathobela (Data Scientist)
 
-    local_css("resources/style/style.css")  
+    ''')
+
+        st.header(":mailbox: Get In Touch With Us !")
+
+
+        contact_form = """
+    <form action="https://formsubmit.co/morglin.olivierm@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Your email" required>
+        <textarea name="message" placeholder="Your message here"></textarea>
+        <button type="submit">Send</button>
+    </form>
+    """
+
+        st.markdown(contact_form, unsafe_allow_html=True)
+
+        local_css("resources/style/style.css")  
 
 # Use Local CSS File
 def local_css(file_name):
@@ -188,4 +192,6 @@ def local_css(file_name):
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
    
-app.run()
+
+if __name__ == '__main__':
+    main()
